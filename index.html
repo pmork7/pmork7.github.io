@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/42948cf8b8.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <p>Paul Mork</p>
+            <ul class="nav-links">
+                <li>Articles</li>
+                <li>Projects</li>
+                <li>About</li>
+            </ul>
+        </div>
+        <div class="mobile-links-container">
+            <div class="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul id="mobile-nav" class="invisible">
+                <li>Articles</li>
+                <li>Projects</li>
+                <li>About</li>
+            </ul>
+        </div>
+    </nav>
+    <div class="content-wrapper">
+        <!-- Hero Section -->
+        <header>
+            <div class="hero-container">
+                <div class="hero-text-container">
+                    <h1>Hey, I'm Paul.</h1>
+                    <p>paul [dot] a [dot] mork <br> [at] gmail [dot] com</p>
+                    <ul class="social-links">
+                        <li><a href="http://github.com/pmork7"><i class="fa-brands fa-github fa-2x"></i></a></li>
+                        <li><a href="http://twitter.com/paulamork1"><i class="fa-brands fa-twitter fa-2x"></i></a></li>
+                        <li><a href="https://www.linkedin.com/in/paul-mork-85a781100/"><i class="fa-brands fa-linkedin fa-2x"></i></a></li>
+                    </ul>
+                </div>
+                <img src="images\personal_pic_blurred_bg.png" alt="A picture of Paul Mork">
+            </div>
+        </header>
+        <main>
+            <!-- About section -->
+            <section class="about">
+                <div class="about-container">
+                    <h1>About</h1>
+                    <div class="text-container">
+                        <p>I am a programmer. I enjoy developing for the web and learning about new technologies.</p>
+                        <p>I'm fluent in Spanish and Catalan. </p>
+                        <p>I have an intermediate level of Mandarin Chinese. (别担心，我真的会说中文)</p>
+                        <p>Auhjourd'hui j'étudie le français.</p>
+                        <p>I'm an appreciator of design aesthetics and an apprentice of making attractive designs.</p>
+                        <p>I have two jade plants that I'm hoping will get big but they grow slowly so I have to be patient.</p>
+                        <p>I can build static pages using HTML, CSS, and JavaScript.</p>
+                        <p>I'm learning the Django tech stack and plan to learn the MERN stack next.</p>
+                        <p>To check my understanding, I like to write articles about technical topics.</p>
+                    </div>
+                </div>
+            </section>
+            <!-- Technologies Section -->
+            <section>
+                <div class="technology-container">
+                    <h1>Technologies I use</h1>
+                    <div class="technology-list-container">
+                        <ul>
+                            <li><i class="fa-brands fa-html5 fa-2x"></i>  HTML</li>
+                            <li><i class="fa-brands fa-css3-alt fa-2x"></i>  CSS</li>
+                            <li><i class="fa-brands fa-js fa-2x"></i>  JavaScript</li>
+                        </ul>
+                        <ul>
+                            <li><i class="fa-brands fa-python fa-2x"></i>  Python</li>
+                            <li><img src="images/cib_django.svg" alt="Django icon" id="django_img">  Django</li>
+                            <li><i class="fa-brands fa-figma fa-2x"></i>  Figma</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <!-- Articles Section -->
+            <section>
+                <div class="article-section-container">
+                    <h1>Articles</h1>
+                    <div class="article-container">
+                        <ul>
+                            <li>
+                                <a href="#">Installing Black for python code linting in the Atom code editor on Windows</a>
+                            </li>
+                            <li>
+                                <a href="#">What is mobile deep-linking?</a>
+                            </li>
+                            <li>
+                                <a href="#">What are the canonical sorting algorthims?</a>
+                            </li>
+                            <li>
+                                <a href="#">What are URI schemes?</a>
+                            </li>
+                            <li>
+                                <a href="#">What are polyfills?</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        let hamburger = document.getElementsByClassName("hamburger")[0];
+        let mobileNav = document.getElementById("mobile-nav");
+        hamburger.addEventListener("click", function() {
+            let classList = Array.prototype.slice.call(this.classList);
+            if (classList.includes("close")) {
+                this.classList.remove("close");
+                mobileNav.classList.remove("visible");
+                mobileNav.classList.add("invisible");
+            } else {
+                this.classList.add("close");
+                mobileNav.classList.add("visible");
+                mobileNav.classList.remove("invisible");
+            }
+        })
+    </script>
+</body>
+</html>

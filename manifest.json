@@ -1,0 +1,10 @@
+{
+    "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+    "name": "Paul's webpage",
+    "description": "A personal webpage for Paul M.",
+    "icons": [{
+        "src": "images/akar-icons_github-fill.svg",
+        "sizes": "24x24",
+        "type": "image/svg"
+    }]
+}
