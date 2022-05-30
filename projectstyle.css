@@ -1,0 +1,46 @@
+* {
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+}
+
+h1 {
+    margin-bottom: 16px;
+}
+
+.container {
+    max-width: 1280px;
+}
+
+.projects-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-entry {
+    margin: 0 5vw 0 5vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid black;
+    height: 120px;
+    width: 640px;
+    padding: 8px;
+}
+
+.project-entry img {
+    height: 88px;
+    width: 88px;
+    border-radius: 15px;
+    margin: 0;
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 12px;
+}
