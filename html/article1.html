@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../style/articlestyle.css">
+    <title>Installing Black for python code formatting in the Atom code editor on Windows</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <p>Paul Mork</p>
+            <ul class="nav-links">
+                <li><a href="#articles">Articles</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </div>
+        <div class="mobile-links-container">
+            <div class="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul id="mobile-nav" class="invisible">
+                <li><a href="#articles">Articles</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <section>
+            <div class="container">
+                <img src="../images/articles/001/blackAtomLogo.png" alt="The logos for Black and Atom side by side" aria-hidden="true">
+                <h1>Installing Black for python code formatting in the Atom code editor on Windows</h1>
+                <div class="article-content">
+                    <p>
+                        Before we begin, let’s clear up some terminology related to this article. Let’s untangle that word salad into more digestible pieces starting with what is Black?
+                    </p>
+                    <p>
+                        Black is an opinionated code formatter that will automatically apply style rules to your Python code. Opinionated means that it has certain beliefs about which styles to apply. Write some code, run Black on it, and then watch as your code is magically reformatted.
+                    </p>
+                    <p>
+                        Here is a link to the <a href="https://black.readthedocs.io/en/stable/">Black documentation</a>.
+                    </p>
+                    <p>
+                        So, the idea sounds great but how do you actually do it? We’ve heard the theory, now let’s move on to the praxis. 
+                    </p>
+                    <p>
+                        The first step is to install Black. You can do this by running the command “pip install black”. If you aren’t already, I’d recommend using a virtual environment for your Python project. For more information about this, check out the <a href="https://docs.python.org/3/tutorial/venv.html">Python venv docs</a>.
+                    </p>
+                    <p>
+                        Once Black is installed, you can try running it on a file or directory by using the command “python black {source_file_or_directory}”. This is great but it would be even better if we could get Black to run every time we saved a file in our project directory.
+                    </p>
+                    <p>
+                        Good news! There is a way to do this. We’re going to use the Atom code editor but I’m sure it’s possible to do this in other code editors.
+                    </p>
+                    <figure>
+                        <img src="../images/articles/001/pythonblackdemo2.gif" alt="Gif demonstration of how to find the extension in the atom package manager" aria-hidden="true">
+                        <figcaption>Here is how to navigate to the installation page in the Atom package manager and install the python-black extension</figcaption>
+                    </figure>
+                    <p>
+                        Go to the packages manager by clicking Packages -> Settings View -> Install Packages/Themes. In the search bar type in “python black”. You should see a package called “python-black” created by mikehoyio. Thanks mikehoyio! Click install.
+                    </p>
+                    <p>
+                        At this point, if you aren’t using a virtual environment the extension should be active.
+                    </p>
+                    <p>
+                        Here is where I encountered the main stumbling block to getting this done. Black was installed in the virtual environment, the python-black extension was installed in Atom but when I saved one of my project files I would get an error. What gives? I thought I did everything right.
+                    </p>
+                    <p>
+                        It turns out Atom also has an extension called atom-python-virtualenv that is necessary for the code editor to detect virtual environments and see what packages are installed on them. To solve this problem install atom-python-virtualenv and then in the package settings add the path to the directory for your project’s virtual environment.
+                    </p>
+                    <figure>
+                        <img src="../images/articles/001/pythonblackdemo3.gif" alt="Gif demonstration of where to add the directory of your virtual environment to the extension settings" aria-hidden="true">
+                        <figcaption>Where to type in the path of your virtual environment directory in the atom-python-virtualenv package settings</figcaption>
+                    </figure>
+                    <p>
+                        Quick aside, the word package keeps coming up and I want to make the distinction between an Atom package and a Python package. In Atom, a package is the code extension you install from within the editor to give you additional features in the editor. In Python, a package is a library of code that you can install using the pip and which will allow you to import modules into your code to give you additional functionality. Examples of packages in Python are NumPy, Pandas, Math, and RegEx.
+                    </p>
+                    <p>
+                        Okay, let’s go back to the point. Now that we have Black installed in our python environment (hopefully we are also using a virtual environment), we’ve installed the python-black code extension in Atom, and we’ve installed the atom-python-virtualenv code extension in Atom and added the path to our virtual environment’s folder in the package settings; we should be good to go!
+                    </p>
+                    <p>
+                        Try saving a file in your Python project. It formats itself. Amazing!
+                    </p>
+                    <p>
+                        I hope that this article has been helpful in some way. If not for the purpose of installing Black in the Atom editor, then at least for an introduction to good practices in Python coding like using virtual environments to manage your project’s dependencies and using code formatting to standardize your code styling across all the files in your project.
+                    </p>
+                    <p>
+                        Thanks for reading!
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        let hamburger = document.getElementsByClassName("hamburger")[0];
+        let mobileNav = document.getElementById("mobile-nav");
+        hamburger.addEventListener("click", function() {
+            let classList = Array.prototype.slice.call(this.classList);
+            if (classList.includes("close")) {
+                this.classList.remove("close");
+                mobileNav.classList.remove("visible");
+                mobileNav.classList.add("invisible");
+            } else {
+                this.classList.add("close");
+                mobileNav.classList.add("visible");
+                mobileNav.classList.remove("invisible");
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+* {
+    margin: 0 auto;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+}
+
+/* Navigation */
+
+nav {
+    height: 64px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 1280px;
+    margin: 0;
+    margin-bottom: 64px;
+    width: 100%;
+}
+
+.nav-content {
+    display: flex;
+    flex-direction: row;
+    font-size: 1rem;
+    padding: 24px;
+    margin: 0;
+}
+
+.invisible {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+nav {
+    height: 64px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 1280px;
+    margin: 0;
+    margin-bottom: 32px;
+    width: 100%;
+}
+
+.nav-content {
+    display: flex;
+    flex-direction: row;
+    font-size: 1rem;
+    padding: 24px;
+    margin: 0;
+}
+
+@media (min-width: 500px) {
+    .nav-content {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .nav-content p {
+        margin: 0;
+    }
+
+    .nav-content ul {
+        margin: 0;
+        list-style-type: none;
+    }
+
+    .nav-content li {
+        margin-right: 40px;
+    }
+
+    .nav-content li:last-child {
+        margin-right: 0px;
+    }
+
+    .nav-content a {
+        text-decoration: none;
+        color: black;
+    }
+}
+
+.nav-links {
+    display: none;
+}
+
+@media (min-width: 500px) {
+    .nav-links {
+        display: flex;
+    }
+}
+
+#mobile-nav {
+    position: absolute;
+    top: 48px;
+    right: 16px;
+    list-style-type: none;
+}
+
+#mobile-nav li {
+    margin: 0;
+    font-size: 1rem;
+}
+
+@media (min-width: 500px) {
+    .mobile-links-container {
+        display: none;
+    }
+}
+
+.hamburger {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 24px;
+    right: 16px;
+    z-index: 2;
+    transition: all 0.3s;
+}
+
+.hamburger.close .bar:first-child {
+    transform: rotate(-45deg);
+}
+
+.hamburger.close .bar:last-child {
+    transform: rotate(45deg);
+}
+
+.bar {
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: black;
+    transition: all 0.3s;
+}
+
+.bar:last-child {
+    transform: translateY(5px);
+}
+
+/* Article Content */
+
+h1 {
+    margin-bottom: 32px;
+}
+
+.container {
+    max-width: 90vw;
+}
+
+.article-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.article-content p {
+    line-height: 1.5;
+    margin-left: 0;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+img {
+    width: 75vw;
+    height: auto;
+    margin-bottom: 8px;
+}
+
+figure {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+figcaption {
+    font-size: 0.8rem;
+    text-align: center;
+}
