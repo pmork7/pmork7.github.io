@@ -1,0 +1,150 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const projects = [
+  {
+    name: "Project Alpha",
+    description: "A short description of what this project does and why it matters.",
+    tags: ["TypeScript", "Node.js", "PostgreSQL"],
+    github: "https://github.com/yourusername/project-alpha",
+    live: "https://project-alpha.example.com",
+  },
+  {
+    name: "Project Beta",
+    description: "Another cool thing you built — what problem does it solve?",
+    tags: ["Python", "FastAPI", "Docker"],
+    github: "https://github.com/yourusername/project-beta",
+    live: undefined,
+  },
+  {
+    name: "Project Gamma",
+    description: "An open-source library or tool you're proud of.",
+    tags: ["Rust", "CLI"],
+    github: "https://github.com/yourusername/project-gamma",
+    live: undefined,
+  },
+];
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+}
+---
+
+<BaseLayout title="Personal Homepage" description="Software engineer and builder.">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>Hi, I'm Paul.</h1>
+      <p class="tagline">
+        Software engineer who likes building cool things.
+      </p>
+      <div class="hero-cta">
+        <a href="/#projects" class="btn btn-primary">See my work</a>
+        <a href="/#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <p class="section-label">About</p>
+      <p>
+        I'm a software engineer based in Baltimore. I work on software testing and quality assurance. I care about writing clean, maintainable
+        code and building tools that people actually enjoy using.
+      </p>
+      <br />
+      <p>
+        Outside of work, I like hiking and cycling. I occasionally write about things
+        I'm learning or building — you can find those on my <a href="/blog">blog</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <p class="section-label">Projects</p>
+      <div class="projects-grid">
+        {projects.map((project) => (
+          <div class="project-card">
+            <h3>{project.name}</h3>
+            <p>{project.description}</p>
+            <div class="tags">
+              {project.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+            <div class="project-links">
+              {project.github && (
+                <a href={project.github} target="_blank" rel="noopener">GitHub</a>
+              )}
+              {project.live && (
+                <a href={project.live} target="_blank" rel="noopener">Live ↗</a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  {posts.length > 0 && (
+    <section id="writing">
+      <div class="container">
+        <p class="section-label">Writing</p>
+        <div class="post-list">
+          {posts.map((post) => (
+            <div class="post-item">
+              <a href={`/blog/${post.id}`} class="post-title">{post.data.title}</a>
+              <span class="post-date">{formatDate(post.data.date)}</span>
+            </div>
+          ))}
+        </div>
+        <br />
+        <a href="/blog" style="font-size: 0.9rem;">All posts →</a>
+      </div>
+    </section>
+  )}
+
+  <!-- GitHub Activity -->
+  <section id="activity">
+    <div class="container">
+      <p class="section-label">GitHub Activity</p>
+      <div class="github-chart">
+        <img
+          src="https://ghchart.rshah.org/2563eb/pmork7"
+          alt="Paul Mork's GitHub contribution chart"
+          width="100%"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label">Contact</p>
+      <p style="margin-bottom: 1.5rem; color: var(--color-muted); font-size: 0.95rem;">
+        I'm open to interesting conversations and opportunities. Feel free to reach out.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:paul.a.mork@gmail.com" class="contact-link">
+          paul.a.mork@gmail.com
+        </a>
+        <a href="https://github.com/pmork7" target="_blank" rel="noopener" class="contact-link">
+          https://github.com/pmork7
+        </a>
+        <a href="https://www.linkedin.com/in/paul-mork-85a781100/" target="_blank" rel="noopener" class="contact-link">
+          https://www.linkedin.com/in/paul-mork-85a781100/
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
