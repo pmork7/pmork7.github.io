@@ -162,6 +162,10 @@ footer {
   padding: 5rem 0 4rem;
 }
 
+.hero .container {
+  max-width: 960px;
+}
+
 .hero-layout {
   display: flex;
   align-items: center;
