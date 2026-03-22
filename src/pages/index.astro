@@ -38,14 +38,30 @@ function formatDate(date: Date) {
 <BaseLayout title="Personal Homepage" description="Software engineer and builder.">
   <!-- Hero -->
   <section class="hero">
-    <div class="container">
-      <h1>Hi, I'm Paul.</h1>
-      <p class="tagline">
-        Software engineer who likes building cool things.
-      </p>
-      <div class="hero-cta">
-        <a href="/#projects" class="btn btn-primary">See my work</a>
-        <a href="/#contact" class="btn btn-ghost">Get in touch</a>
+    <div class="container hero-layout">
+      <div class="hero-text">
+        <h1>Hi, I'm Paul.</h1>
+        <p class="tagline">
+          Software engineer who likes building cool things.
+        </p>
+        <div class="hero-cta">
+          <a href="/#projects" class="btn btn-primary">See my work</a>
+          <a href="/#contact" class="btn btn-ghost">Get in touch</a>
+        </div>
+      </div>
+      <div class="hero-canvas-wrapper">
+        <canvas id="gol-canvas" aria-hidden="true"></canvas>
+        <div class="gol-controls">
+          <label for="gol-rule" class="gol-label">Rule:</label>
+          <select id="gol-rule" class="gol-select">
+            <option value="B3/S23">Conway's Game of Life (B3/S23)</option>
+            <option value="B36/S23">HighLife (B36/S23)</option>
+            <option value="B3678/S34678">Day & Night (B3678/S34678)</option>
+            <option value="B2/S">Seeds (B2/S)</option>
+            <option value="B35678/S5678">Diamoeba (B35678/S5678)</option>
+            <option value="B368/S245">Morley (B368/S245)</option>
+          </select>
+        </div>
       </div>
     </div>
   </section>
