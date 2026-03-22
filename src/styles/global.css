@@ -256,6 +256,22 @@ footer {
   cursor: pointer;
 }
 
+.gol-reset {
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.gol-reset:hover {
+  border-color: #9ca3af;
+}
+
 /* Projects grid */
 .projects-grid {
   display: grid;

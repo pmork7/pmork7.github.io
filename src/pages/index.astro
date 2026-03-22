@@ -61,6 +61,7 @@ function formatDate(date: Date) {
             <option value="B35678/S5678">Diamoeba (B35678/S5678)</option>
             <option value="B368/S245">Morley (B368/S245)</option>
           </select>
+          <button id="gol-reset" class="gol-reset" type="button">Reset</button>
         </div>
       </div>
     </div>
@@ -321,6 +322,12 @@ function formatDate(date: Date) {
   const ruleSelect = document.getElementById("gol-rule");
   ruleSelect.addEventListener("change", function () {
     currentRule = RULES[this.value];
+  });
+
+  // --- Reset button ---
+  document.getElementById("gol-reset").addEventListener("click", function () {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    initGrid();
   });
 
   // --- Resize handling ---
