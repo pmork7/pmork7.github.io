@@ -162,6 +162,17 @@ footer {
   padding: 5rem 0 4rem;
 }
 
+.hero-layout {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 0;
+}
+
 .hero h1 {
   font-size: 2.25rem;
   margin-bottom: 0.75rem;
@@ -199,6 +210,46 @@ footer {
   border: 1px solid var(--color-border);
   color: var(--color-text);
   background: transparent;
+}
+
+/* Game of Life canvas */
+.hero-canvas-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+#gol-canvas {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  display: block;
+  background: #fff;
+}
+
+.gol-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.gol-label {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+.gol-select {
+  flex: 1;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--color-text);
+  cursor: pointer;
 }
 
 /* Projects grid */
@@ -376,5 +427,11 @@ footer {
 /* Responsive */
 @media (max-width: 600px) {
   .hero h1 { font-size: 1.75rem; }
+  .hero-layout {
+    flex-direction: column;
+  }
+  #gol-canvas {
+    aspect-ratio: 16 / 9;
+  }
   .post-item { flex-direction: column; gap: 0.1rem; }
 }
