@@ -332,13 +332,15 @@ function formatDate(date: Date) {
 
   // --- Resize handling ---
   let resizeTimer;
-  window.addEventListener("resize", function () {
+  function handleResize() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       initGrid();
     }, 200);
-  });
+  }
+  window.addEventListener("resize", handleResize);
+  screen.orientation && screen.orientation.addEventListener("change", handleResize);
 
   // --- Mouse/touch tracking ---
   canvas.addEventListener("mousemove", function (e) {

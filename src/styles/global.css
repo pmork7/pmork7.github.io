@@ -446,12 +446,17 @@ footer {
 
 /* Responsive */
 @media (max-width: 600px) {
+  .hero { padding: 2.5rem 0 2rem; }
   .hero h1 { font-size: 1.75rem; }
   .hero-layout {
     flex-direction: column;
   }
+  .hero-canvas-wrapper {
+    width: 100%;
+  }
   #gol-canvas {
     aspect-ratio: 16 / 9;
+    max-height: 50vh;
   }
   .post-item { flex-direction: column; gap: 0.1rem; }
 }
