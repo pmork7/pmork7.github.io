@@ -160,10 +160,12 @@ footer {
 /* Hero */
 .hero {
   padding: 5rem 0 4rem;
+  overflow: hidden;
 }
 
 .hero .container {
-  max-width: 960px;
+  max-width: var(--max-width);
+  overflow: visible;
 }
 
 .hero-layout {
@@ -218,7 +220,7 @@ footer {
 
 /* Game of Life canvas */
 .hero-canvas-wrapper {
-  flex: 1;
+  flex: 0 0 420px;
   min-width: 0;
 }
 
@@ -452,11 +454,15 @@ footer {
     flex-direction: column;
   }
   .hero-canvas-wrapper {
+    flex: 1 1 auto;
     width: 100%;
   }
   #gol-canvas {
     aspect-ratio: 16 / 9;
     max-height: 50vh;
+  }
+  .gol-controls {
+    flex-wrap: wrap;
   }
   .post-item { flex-direction: column; gap: 0.1rem; }
 }
