@@ -68,6 +68,10 @@ function formatDate(date: Date) {
           <label for="gol-brush" class="gol-label">Brush:</label>
           <input id="gol-brush" class="gol-slider" type="range" min="1" max="20" step="1" value="1" />
         </div>
+        <div class="gol-controls">
+          <label for="gol-speed" class="gol-label">Speed:</label>
+          <input id="gol-speed" class="gol-slider" type="range" min="1" max="30" step="1" value="10" />
+        </div>
       </div>
     </div>
   </section>
@@ -177,8 +181,8 @@ function formatDate(date: Date) {
   const ctx = canvas.getContext("2d");
 
   const CELL_SIZE = 8;
-  const TICK_INTERVAL = 100; // ~10 FPS
   const INITIAL_DENSITY = 0.25;
+  let tickInterval = 100; // ms between simulation steps
 
   let cols = 0;
   let rows = 0;
@@ -354,7 +358,7 @@ function formatDate(date: Date) {
 
   // --- Main loop ---
   function loop(timestamp) {
-    if (timestamp - lastTick >= TICK_INTERVAL) {
+    if (timestamp - lastTick >= tickInterval) {
       step();
       lastTick = timestamp;
     }
@@ -385,6 +389,13 @@ function formatDate(date: Date) {
   brushDiameter = parseFloat(brushSlider.value);
   brushSlider.addEventListener("input", function () {
     brushDiameter = parseFloat(this.value);
+  });
+
+  // --- Speed slider ---
+  const speedSlider = document.getElementById("gol-speed");
+  tickInterval = 1000 / parseFloat(speedSlider.value);
+  speedSlider.addEventListener("input", function () {
+    tickInterval = 1000 / parseFloat(this.value);
   });
 
   // --- Resize handling ---
