@@ -64,6 +64,10 @@ function formatDate(date: Date) {
           <button id="gol-reset" class="gol-reset" type="button">Reset</button>
           <button id="gol-invert" class="gol-reset" type="button">Invert</button>
         </div>
+        <div class="gol-controls">
+          <label for="gol-brush" class="gol-label">Brush:</label>
+          <input id="gol-brush" class="gol-slider" type="range" min="1" max="20" step="1" value="7" />
+        </div>
       </div>
     </div>
   </section>
@@ -186,7 +190,7 @@ function formatDate(date: Date) {
   let mouseX = -1;
   let mouseY = -1;
   let inverted = false;
-  const COLOR_RADIUS = 3.5;
+  let brushDiameter = 7;
   const FADE_SPEED = 0.08; // per frame, ease-out (~1s decay at 60fps)
 
   // --- Rule parsing ---
@@ -263,18 +267,20 @@ function formatDate(date: Date) {
   function updateColors() {
     const curCol = Math.floor(mouseX / CELL_SIZE);
     const curRow = Math.floor(mouseY / CELL_SIZE);
+    const radius = brushDiameter / 2;
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        if (mouseX >= 0 && mouseY >= 0 && !grid[r][c]) {
+        if (mouseX >= 0 && mouseY >= 0) {
           const dr = r - curRow;
           const dc = c - curCol;
           const dist = Math.sqrt(dr * dr + dc * dc);
-          if (dist <= COLOR_RADIUS) {
+          if (dist <= radius) {
             const angle = Math.atan2(dr, dc);
             const hue = ((angle / Math.PI) * 180 + 360) % 360;
             colorHue[r][c] = hue;
             colorIntensity[r][c] = 1;
+            grid[r][c] = true;
           }
         }
         // Decay
@@ -299,16 +305,14 @@ function formatDate(date: Date) {
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        if (grid[r][c]) {
+        const intensity = colorIntensity[r][c];
+        if (intensity > 0) {
+          const hue = colorHue[r][c];
+          ctx.fillStyle = "hsl(" + hue + " 80% " + (intensity * 50) + "%)";
+          ctx.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
+        } else if (grid[r][c]) {
           ctx.fillStyle = cellColor;
           ctx.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
-        } else {
-          const intensity = colorIntensity[r][c];
-          if (intensity > 0) {
-            const hue = colorHue[r][c];
-            ctx.fillStyle = "hsl(" + hue + " 80% " + (intensity * 50) + "%)";
-            ctx.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
-          }
         }
       }
     }
@@ -340,6 +344,13 @@ function formatDate(date: Date) {
   document.getElementById("gol-invert").addEventListener("click", function () {
     inverted = !inverted;
     canvas.style.background = inverted ? "#fff" : "#000";
+  });
+
+  // --- Brush slider ---
+  const brushSlider = document.getElementById("gol-brush");
+  brushDiameter = parseFloat(brushSlider.value);
+  brushSlider.addEventListener("input", function () {
+    brushDiameter = parseFloat(this.value);
   });
 
   // --- Resize handling ---

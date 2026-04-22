@@ -274,6 +274,11 @@ footer {
   border-color: #9ca3af;
 }
 
+.gol-slider {
+  flex: 1;
+  cursor: pointer;
+}
+
 /* Projects grid */
 .projects-grid {
   display: grid;
