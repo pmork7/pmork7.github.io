@@ -191,7 +191,13 @@ function formatDate(date: Date) {
   let mouseY = -1;
   let inverted = true;
   let brushDiameter = 1;
+  let ripples = [];
+  let lastBrushCell = null;
   const FADE_SPEED = 0.08; // per frame, ease-out (~1s decay at 60fps)
+  const WAVE_SPEED = 0.8;      // cells per frame
+  const WAVE_WIDTH = 1.6;      // gaussian sigma (cells)
+  const RIPPLE_LIFETIME = 48;  // frames
+  const MAX_RIPPLES = 15;
 
   // --- Rule parsing ---
   const RULES = {
@@ -229,6 +235,9 @@ function formatDate(date: Date) {
       colorIntensity[r] = new Float32Array(cols);
       colorHue[r] = new Float32Array(cols);
     }
+
+    ripples = [];
+    lastBrushCell = null;
   }
 
   // --- Simulation step ---
@@ -264,29 +273,73 @@ function formatDate(date: Date) {
   }
 
   // --- Color hover effect ---
-  function updateColors() {
-    const curCol = Math.floor(mouseX / CELL_SIZE);
-    const curRow = Math.floor(mouseY / CELL_SIZE);
-    const radius = brushDiameter / 2;
+  function spawnRipple() {
+    if (mouseX < 0 || mouseY < 0) return;
+    const col = Math.floor(mouseX / CELL_SIZE);
+    const row = Math.floor(mouseY / CELL_SIZE);
+    if (lastBrushCell && lastBrushCell.col === col && lastBrushCell.row === row) return;
+    ripples.push({ row: row, col: col, age: 0 });
+    if (ripples.length > MAX_RIPPLES) ripples.shift();
+    lastBrushCell = { col: col, row: row };
+  }
 
+  function updateColors() {
+    // Decay existing color
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        if (mouseX >= 0 && mouseY >= 0) {
-          const dr = r - curRow;
-          const dc = c - curCol;
+        const v = colorIntensity[r][c] * (1 - FADE_SPEED);
+        colorIntensity[r][c] = v < 0.01 ? 0 : v;
+      }
+    }
+
+    // Age ripples and stamp their wave-front pulses
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const rip = ripples[i];
+      rip.age++;
+      if (rip.age > RIPPLE_LIFETIME) {
+        ripples.splice(i, 1);
+        continue;
+      }
+      const waveR = rip.age * WAVE_SPEED;
+      const lifeFade = 1 - rip.age / RIPPLE_LIFETIME;
+      const maxDist = waveR + WAVE_WIDTH * 3;
+      const rMin = Math.max(0, Math.floor(rip.row - maxDist));
+      const rMax = Math.min(rows - 1, Math.ceil(rip.row + maxDist));
+      const cMin = Math.max(0, Math.floor(rip.col - maxDist));
+      const cMax = Math.min(cols - 1, Math.ceil(rip.col + maxDist));
+      for (let r = rMin; r <= rMax; r++) {
+        for (let c = cMin; c <= cMax; c++) {
+          const dr = r - rip.row;
+          const dc = c - rip.col;
           const dist = Math.sqrt(dr * dr + dc * dc);
-          if (dist <= radius) {
+          const frontDelta = dist - waveR;
+          const pulse = Math.exp(-(frontDelta * frontDelta) / (2 * WAVE_WIDTH * WAVE_WIDTH));
+          const intensity = pulse * lifeFade;
+          if (intensity > colorIntensity[r][c]) {
+            colorIntensity[r][c] = intensity;
             const angle = Math.atan2(dr, dc);
-            const hue = ((angle / Math.PI) * 180 + 360) % 360;
-            colorHue[r][c] = hue;
-            colorIntensity[r][c] = 1;
-            grid[r][c] = true;
+            colorHue[r][c] = ((angle / Math.PI) * 180 + 360) % 360;
           }
         }
-        // Decay
-        if (colorIntensity[r][c] > 0) {
-          colorIntensity[r][c] *= (1 - FADE_SPEED);
-          if (colorIntensity[r][c] < 0.01) colorIntensity[r][c] = 0;
+      }
+    }
+
+    // Brush: mark touched cells alive (ripple handles the coloring)
+    if (mouseX >= 0 && mouseY >= 0) {
+      const curCol = Math.floor(mouseX / CELL_SIZE);
+      const curRow = Math.floor(mouseY / CELL_SIZE);
+      const radius = brushDiameter / 2;
+      const rMin = Math.max(0, Math.floor(curRow - radius));
+      const rMax = Math.min(rows - 1, Math.ceil(curRow + radius));
+      const cMin = Math.max(0, Math.floor(curCol - radius));
+      const cMax = Math.min(cols - 1, Math.ceil(curCol + radius));
+      for (let r = rMin; r <= rMax; r++) {
+        for (let c = cMin; c <= cMax; c++) {
+          const dr = r - curRow;
+          const dc = c - curCol;
+          if (Math.sqrt(dr * dr + dc * dc) <= radius) {
+            grid[r][c] = true;
+          }
         }
       }
     }
@@ -370,11 +423,13 @@ function formatDate(date: Date) {
     const rect = canvas.getBoundingClientRect();
     mouseX = e.clientX - rect.left;
     mouseY = e.clientY - rect.top;
+    spawnRipple();
   });
 
   canvas.addEventListener("mouseleave", function () {
     mouseX = -1;
     mouseY = -1;
+    lastBrushCell = null;
   });
 
   canvas.addEventListener("touchmove", function (e) {
@@ -383,11 +438,13 @@ function formatDate(date: Date) {
     const touch = e.touches[0];
     mouseX = touch.clientX - rect.left;
     mouseY = touch.clientY - rect.top;
+    spawnRipple();
   }, { passive: false });
 
   canvas.addEventListener("touchend", function () {
     mouseX = -1;
     mouseY = -1;
+    lastBrushCell = null;
   });
 
   // --- Start ---
