@@ -62,6 +62,7 @@ function formatDate(date: Date) {
             <option value="B368/S245">Morley (B368/S245)</option>
           </select>
           <button id="gol-reset" class="gol-reset" type="button">Reset</button>
+          <button id="gol-invert" class="gol-reset" type="button">Invert</button>
         </div>
       </div>
     </div>
@@ -184,6 +185,7 @@ function formatDate(date: Date) {
   let colorHue = [];       // 2D array: hue (0-360) per cell
   let mouseX = -1;
   let mouseY = -1;
+  let inverted = false;
   const COLOR_RADIUS = 3.5;
   const FADE_SPEED = 0.08; // per frame, ease-out (~1s decay at 60fps)
 
@@ -264,7 +266,7 @@ function formatDate(date: Date) {
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        if (mouseX >= 0 && mouseY >= 0 && grid[r][c]) {
+        if (mouseX >= 0 && mouseY >= 0 && !grid[r][c]) {
           const dr = r - curRow;
           const dc = c - curCol;
           const dist = Math.sqrt(dr * dr + dc * dc);
@@ -288,21 +290,25 @@ function formatDate(date: Date) {
   function render() {
     const w = canvas.width / devicePixelRatio;
     const h = canvas.height / devicePixelRatio;
-    ctx.clearRect(0, 0, w, h);
+    const bgColor = inverted ? "#fff" : "#000";
+    const cellColor = inverted ? "#000" : "#fff";
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, w, h);
 
     updateColors();
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         if (grid[r][c]) {
+          ctx.fillStyle = cellColor;
+          ctx.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
+        } else {
           const intensity = colorIntensity[r][c];
           if (intensity > 0) {
             const hue = colorHue[r][c];
             ctx.fillStyle = "hsl(" + hue + " 80% " + (intensity * 50) + "%)";
-          } else {
-            ctx.fillStyle = "#fff";
+            ctx.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
           }
-          ctx.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
         }
       }
     }
@@ -328,6 +334,12 @@ function formatDate(date: Date) {
   document.getElementById("gol-reset").addEventListener("click", function () {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     initGrid();
+  });
+
+  // --- Invert button ---
+  document.getElementById("gol-invert").addEventListener("click", function () {
+    inverted = !inverted;
+    canvas.style.background = inverted ? "#fff" : "#000";
   });
 
   // --- Resize handling ---
