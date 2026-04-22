@@ -300,7 +300,7 @@ function formatDate(date: Date) {
             const hue = colorHue[r][c];
             ctx.fillStyle = "hsl(" + hue + " 80% " + (intensity * 50) + "%)";
           } else {
-            ctx.fillStyle = "#000";
+            ctx.fillStyle = "#fff";
           }
           ctx.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
         }
