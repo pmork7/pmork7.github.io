@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import GitHubActivity from "../components/GitHubActivity.astro";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog"))
@@ -144,11 +145,7 @@ function formatDate(date: Date) {
     <div class="container">
       <p class="section-label">GitHub Activity</p>
       <div class="github-chart">
-        <img
-          src="https://ghchart.rshah.org/2563eb/pmork7"
-          alt="Paul Mork's GitHub contribution chart"
-          width="100%"
-        />
+        <GitHubActivity />
       </div>
     </div>
   </section>
